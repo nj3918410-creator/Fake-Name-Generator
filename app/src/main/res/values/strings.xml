@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fake Name Generator</string>
+    <string name="floating_action_button">নাম জেনারেট করুন</string>
+    <string name="copy_button">কপি করুন</string>
+    <string name="share_button">শেয়ার করুন</string>
+    <string name="refresh_button">রিফ্রেশ করুন</string>
+    <string name="close_button">বন্ধ করুন</string>
+</resources>
