@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun FloatingActionButtonExamples(context: Context) {
-    val generatedName = remember { mutableStateOf("Tap to Generate") }
+    val generatedName = remember { mutableStateOf("ট্যাপ করে শুরু করুন") }
     
     Column(
         modifier = Modifier
@@ -40,34 +40,37 @@ fun FloatingActionButtonExamples(context: Context) {
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("নাম জেনারেটর অ্যাপ:")
-        Text("Generated: ${generatedName.value}")
+        Text("📱 নাম জেনারেটর অ্যাপ")
+        Text("জেনারেট করা নাম: ${generatedName.value}")
         
-        Text("সাধারণ ফ্লোটিং অ্যাকশন বাটন:")
+        Text("🔘 সাধারণ ফ্লোটিং বাটন:")
         Example(
             onClick = {
                 generatedName.value = generateUSName()
                 Log.d("FAB", "FAB clicked. Generated: ${generatedName.value}")
+                Toast.makeText(context, "নতুন নাম: ${generatedName.value}", Toast.LENGTH_SHORT).show()
             }
         )
         
-        Text("ছোট ফ্লোটিং অ্যাকশন বাটন:")
+        Text("🔹 ছোট ফ্লোটিং বাটন:")
         SmallExample(
             onClick = {
                 generatedName.value = generateUSName()
                 Log.d("FAB", "Small FAB clicked.")
+                Toast.makeText(context, "নতুন নাম: ${generatedName.value}", Toast.LENGTH_SHORT).show()
             }
         )
         
-        Text("বড় ফ্লোটিং অ্যাকশন বাটন:")
+        Text("🔷 বড় ফ্লোটিং বাটন:")
         LargeExample(
             onClick = {
                 generatedName.value = generateUSName()
                 Log.d("FAB", "Large FAB clicked.")
+                Toast.makeText(context, "নতুন নাম: ${generatedName.value}", Toast.LENGTH_SHORT).show()
             }
         )
         
-        Text("টেক্সট সহ এক্সটেন্ডেড FAB:")
+        Text("📤 এক্সটেন্ডেড FAB (শেয়ার):")
         ExtendedExample(
             onClick = {
                 generatedName.value = generateUSName()
@@ -85,7 +88,7 @@ fun Example(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = { onClick() },
     ) {
-        Icon(Icons.Filled.Add, "নাম জেনারেট করুন")
+        Icon(Icons.Filled.Add, contentDescription = "নাম জেনারেট করুন")
     }
 }
 // [END android_compose_components_fab]
@@ -99,7 +102,7 @@ fun ExtendedExample(onClick: () -> Unit, context: Context, generatedName: String
             // নাম শেয়ার করার লজিক
             shareGeneratedName(context, generatedName)
         },
-        icon = { Icon(Icons.Filled.Share, "শেয়ার করুন") },
+        icon = { Icon(Icons.Filled.Share, contentDescription = "শেয়ার করুন") },
         text = { Text(text = "শেয়ার করুন") },
     )
 }
@@ -113,7 +116,7 @@ fun SmallExample(onClick: () -> Unit) {
         containerColor = MaterialTheme.colorScheme.secondaryContainer,
         contentColor = MaterialTheme.colorScheme.secondary
     ) {
-        Icon(Icons.Filled.Add, "ছোট FAB")
+        Icon(Icons.Filled.Add, contentDescription = "ছোট FAB")
     }
 }
 // [END android_compose_components_smallfab]
@@ -125,24 +128,32 @@ fun LargeExample(onClick: () -> Unit) {
         onClick = { onClick() },
         shape = CircleShape,
     ) {
-        Icon(Icons.Filled.Add, "বড় FAB")
+        Icon(Icons.Filled.Add, contentDescription = "বড় FAB")
     }
 }
 // [END android_compose_components_largefab]
 
 // নাম জেনারেট করার ফাংশন
 fun generateUSName(): String {
-    val first = arrayOf("Emma", "Olivia", "Ava", "Sophia", "Mia", "James", "Robert", "Michael", "William", "David")
-    val last = arrayOf("Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez")
+    val firstNames = arrayOf(
+        "Emma", "Olivia", "Ava", "Sophia", "Mia", 
+        "James", "Robert", "Michael", "William", "David",
+        "John", "Richard", "Joseph", "Thomas", "Charles"
+    )
+    val lastNames = arrayOf(
+        "Smith", "Johnson", "Williams", "Brown", "Jones", 
+        "Garcia", "Miller", "Davis", "Rodriguez", "Martinez",
+        "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson"
+    )
     val random = kotlin.random.Random
-    return "${first[random.nextInt(first.size)]} ${last[random.nextInt(last.size)]}"
+    return "${firstNames[random.nextInt(firstNames.size)]} ${lastNames[random.nextInt(lastNames.size)]}"
 }
 
 // নাম শেয়ার করার ফাংশন
 fun shareGeneratedName(context: Context, name: String) {
     val shareIntent = Intent(Intent.ACTION_SEND).apply {
         type = "text/plain"
-        putExtra(Intent.EXTRA_TEXT, "Generated Name: $name")
+        putExtra(Intent.EXTRA_TEXT, "🎲 জেনারেট করা নাম: $name")
     }
     context.startActivity(Intent.createChooser(shareIntent, "শেয়ার করুন"))
 }
@@ -152,5 +163,5 @@ fun copyNameToClipboard(context: Context, name: String) {
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     val clip = ClipData.newPlainText("Generated Name", name)
     clipboard.setPrimaryClip(clip)
-    Toast.makeText(context, "Copied: $name", Toast.LENGTH_SHORT).show()
+    Toast.makeText(context, "✅ কপি করা হয়েছে: $name", Toast.LENGTH_SHORT).show()
 }
